@@ -1,0 +1,9 @@
+uvicorn
+fastapi
+tortoise-orm[asyncpg]
+pydantic[email]~=1.10.6
+bcrypt
+pyjwt
+iso3166
+azure-storage-blob
+python-multipart

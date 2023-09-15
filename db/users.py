@@ -46,7 +46,7 @@ class Engineer(DBModel):
     
     first_name = fields.CharField(max_length=24)
     last_name = fields.CharField(max_length=24)
-    middle_name = fields.CharField(max_length=24, null=True)
+    # middle_name = fields.CharField(max_length=24, null=True)
     
     
     class PydanticMeta:

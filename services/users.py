@@ -41,9 +41,9 @@ class UserService_Admin(AbsUserService):
             email=email, role=role
         )
     
-    async def create_engineer(self, email: str, first_name: str, last_name: str, middle_name: str = None) -> Engineer:
+    async def create_engineer(self, email: str, first_name: str, last_name: str) -> Engineer:
         user = await _create_user(email=email)
-        engineer = await Engineer.create(user=user, first_name=first_name, last_name=last_name, middle_name=middle_name)
+        engineer = await Engineer.create(user=user, first_name=first_name, last_name=last_name)
         return engineer
     
     async def create_partner(self, email: str, name: str, country: str, engineer_ids: typing.List[int] = None) -> Partner:

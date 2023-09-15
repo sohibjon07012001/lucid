@@ -14,5 +14,5 @@ class CreatePartnerRequest(CreateUserRequest):
 class CreateEngineerRequest(CreateUserRequest):
     first_name: str
     last_name: str
-    middle_name: typing.Optional[str]
+    # middle_name: typing.Optional[str]
     

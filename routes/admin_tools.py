@@ -15,7 +15,7 @@ router = APIRouter(prefix="/admin")
 async def create_engineer(body: CreateEngineerRequest,
                           services: Services = Depends(get_facade_services_if_authenticated)):
     """Запрос на создание аккаунта инженера"""
-    engineer = await services.users.create_engineer(body.email, body.first_name, body.last_name, body.middle_name)
+    engineer = await services.users.create_engineer(body.email, body.first_name, body.last_name)
     return await UserOut.from_tortoise_orm(engineer.user)
 
 

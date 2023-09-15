@@ -1,9 +1,11 @@
 uvicorn
 fastapi
 tortoise-orm[asyncpg]
-pydantic[email]~=1.10.6
+pydantic[email]
+pydantic
 bcrypt
 pyjwt
 iso3166
 azure-storage-blob
 python-multipart
+python-dotenv      

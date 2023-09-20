@@ -12,6 +12,7 @@ class PartnerService_Engineer(AbsPartnerService):
     async def get_partners(self) -> typing.List[Partner]:
         """Returns partners which the engineer bind to"""
         related_matrix = await EngineerPartner.filter(engineer=self.services.user.engineer_profile).prefetch_related('partner', 'engineer')
+        print(related_matrix)
         return [i.partner for i in related_matrix]
 
 

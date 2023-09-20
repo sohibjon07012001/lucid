@@ -15,14 +15,14 @@ from services.facade import AbsTemplateService
 
 class TemplateService_Partner(AbsTemplateService):
     async def create_template(self, partner_id: int, file: UploadFile) -> Template:
-        # file_url = await upload_file(file=file.file, file_name=file.filename, file_type=file.content_type)
-        # return await Template.create(
-        #     partner_id=partner_id, 
-        #     uploaded_by_id=self.services.user.engineer_profile.id,
-        #     file_name=file.filename,
-        #     file_url=file_url, 
-        # )
-        raise exceptions.FORBIDDEN
+        file_url = await upload_file(file=file.file, file_name=file.filename, file_type=file.content_type)
+        return await Template.create(
+            partner_id=partner_id, 
+            uploaded_by_id=self.services.user.partner_profile.id,
+            file_name=file.filename,
+            file_url=file_url, 
+        )
+        # raise exceptions.FORBIDDEN
     
     async def get_templates(self, partner_id: int) -> typing.List[Template]:
         """Returns all the templates related to the given partner"""
@@ -30,7 +30,12 @@ class TemplateService_Partner(AbsTemplateService):
         return await Template.filter(partner_id=partner_id)
     
     async def delete_template(self, template_id: int) -> bool:
-        raise exceptions.FORBIDDEN
+        try:
+            print("deleting_data")
+            return await Template.filter(id=template_id, partner_id=self.services.user.partner_profile.id).delete()
+        except: 
+            raise False
+
 
 
 class TemplateService_Admin(AbsTemplateService):

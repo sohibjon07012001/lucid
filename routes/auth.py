@@ -29,7 +29,7 @@ async def sign_in(body: SignInRequest):
     print(user)
     return TokenResponse(token=await jwt.issue_jwt_token(user.id), user=await UserOut.from_tortoise_orm(user))#возврашает сгенерированный токен по айди и информации юзера
 
-#получаем email 
+#получаем email существуешего партнера или инженера и если не имеет пароля то создаем для него пароль
 @router.post("/set_password", response_model=TokenResponse,
              responses=exceptions.make_schemas(exceptions.USER_ALREADY_SET_PASSWORD, exceptions.USER_NOT_FOUND))
 async def set_initial_password(body: SetPasswordRequest):

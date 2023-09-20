@@ -10,3 +10,5 @@ class UserRole(str, Enum):
 class ProfileType(str, Enum):
     ENGINEER = 'engineer'
     PARTNER = 'partner'
+
+

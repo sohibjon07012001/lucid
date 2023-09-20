@@ -73,10 +73,12 @@ class Services(UserBasedService):
             self.templates = TemplateService_Partner(self)
             self.partners = PartnerService_Partner(self)
             self.users = UserService_Partner(self)
-        
+            print("is partner")
         elif self.user.is_engineer():
             self.templates = TemplateService_Engineer(self)
             self.partners = PartnerService_Engineer(self)
             self.users = UserService_Engineer(self)
-       
+            print("is engineer")
+        else:
+            print("FAILE")
           

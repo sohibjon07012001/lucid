@@ -17,7 +17,6 @@ class User(DBModel):
     
     engineer_profile: fields.OneToOneNullableRelation['Engineer']
     partner_profile: fields.OneToOneNullableRelation['Partner']
-    # print(engineer_profile)
     def is_activated(self) -> bool:
         return self.password is not None
     
@@ -25,9 +24,11 @@ class User(DBModel):
         return self.role == UserRole.ADMIN
             
     def is_partner(self) -> bool:
+        print(self.partner_profile)
         return self.partner_profile is not None
     
     def is_engineer(self) -> bool:
+        print(self.engineer_profile)
         return self.engineer_profile is not None
     
     def check_password(self, password: str) -> bool:

@@ -24,15 +24,6 @@ router = APIRouter(prefix="/partners")
 async def upload_partner_template(partner_id: int,#Path(..., description="ID профиля партнера") 
                                   file: UploadFile,#=Form(..., description="Файл шаблона (template)")
                                   services: Services = Depends(get_facade_services_if_authenticated)):
-    # print(services.templates)
-    # file_url = await upload_file(file=file.file, file_name=file.filename, file_type=file.content_type)
-    # Template.create(
-    #         partner_id=partner_id, 
-    #         uploaded_by_id=1,
-    #         file_name=file.filename,
-    #         file_url=file_url, 
-    #     )
-    # return {"message":"Done"}
     template = await services.templates.create_template(partner_id=partner_id, file=file)
     return await TemplateOut.from_tortoise_orm(template)
 

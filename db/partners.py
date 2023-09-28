@@ -10,11 +10,12 @@ class Template(DBModel):
     
     
     class PydanticMeta:
-        exclude = ('uploaded_by', )
+        exclude = ('uploaded_by')
     
 class Data(DBModel):
     id = fields.IntField(pk=True)
     partner = fields.ForeignKeyField('db.Partner', related_name="data")
+    template = fields.ForeignKeyField('db.Template', related_name="template_id_data") 
     file_url = fields.CharField(max_length=255)
     file_name = fields.CharField(max_length=255)
     is_valid = fields.BooleanField(null=True)

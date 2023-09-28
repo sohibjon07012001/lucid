@@ -14,10 +14,11 @@ from services.facade import AbsTemplateService
 
 
 class TemplateService_Partner(AbsTemplateService):
-    async def create_template(self, partner_id: int, file: UploadFile) -> typing.List[Template]:
+    async def create_template(self, partner_id: int, template_id:int,  file: UploadFile) -> typing.List[Template]:
         file_url = await upload_file(file=file.file, file_name=file.filename, file_type=file.content_type)
         res =  await Data.create(
-            partner_id=partner_id, 
+            partner_id=partner_id,
+            template_id=template_id, 
             # uploaded_by_id=self.services.user.partner_profile.id,
             file_name=file.filename,
             file_url=file_url, 
@@ -61,7 +62,7 @@ class TemplateService_Engineer(AbsTemplateService):
             return False
         return True
     
-    async def create_template(self, partner_id: int, file: UploadFile) -> Template:
+    async def create_template(self, partner_id: int, file: UploadFile, template_id:int) -> Template:
         if not await self._is_engineer_related_to_partner(partner_id=partner_id, engineer_id=self.services.user.engineer_profile.id):
             raise exceptions.FORBIDDEN
         

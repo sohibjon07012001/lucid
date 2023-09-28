@@ -8,7 +8,7 @@ from services.facade import Services
 from routes.middlewares import get_facade_services_if_authenticated
 
 
-router = APIRouter(prefix="/admin")
+router = APIRouter(prefix="/admin", tags=['admin'])
 
 
 @router.post("/engineers", response_model=UserOut)

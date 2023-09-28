@@ -10,7 +10,7 @@ from services.facade import Services
 import exceptions
 
 
-router = APIRouter(prefix="/auth")
+router = APIRouter(prefix="/auth", tags=['auth'])
 
 
 
@@ -26,7 +26,6 @@ async def check_email(req: AuthCheckEmailRequest):
              responses=exceptions.make_schemas(exceptions.USER_HAS_NO_PASSWORD, exceptions.USER_NOT_FOUND, exceptions.INVALID_PASSWORD))
 async def sign_in(body: SignInRequest):
     user = await auth.authenticate(body.email, body.password)#проверяем имеется ли пользователь в базе
-    print(user)
     return TokenResponse(token=await jwt.issue_jwt_token(user.id), user=await UserOut.from_tortoise_orm(user))#возврашает сгенерированный токен по айди и информации юзера
 
 #получаем email существуешего партнера или инженера и если не имеет пароля то создаем для него пароль

@@ -10,7 +10,6 @@ from services.facade import SubService, AbsUserService
 
 async def get_user_by(**kwargs) -> User:
     user = await User.get_or_none(**kwargs).prefetch_related('engineer_profile', "partner_profile")
-    print(user)
     if user is None:
         raise exceptions.USER_NOT_FOUND
     return user

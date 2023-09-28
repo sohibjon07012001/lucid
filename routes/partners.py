@@ -1,6 +1,6 @@
 import typing
 from fastapi import APIRouter, UploadFile, Form, Depends, Path
-
+from fastapi.encoders import jsonable_encoder
 from routes.middlewares import has_engineer_profile, has_partner_profile, is_authenticated, get_facade_services_if_authenticated
 from models.partners import TemplateOut, PartnerOut, DataOut
 from services import templates
@@ -11,10 +11,9 @@ from value_types import ProfileType
 from services import users, auth, jwt
 from services.facade import Services
 import exceptions
-
-
-
-router = APIRouter(prefix="/partners")
+from tortoise.contrib.pydantic.creator import pydantic_model_creator
+from pydantic import BaseModel
+router = APIRouter(prefix="/partners", tags=["partners"])
 
 
 @router.post('/{partner_id}/templates', 
@@ -22,13 +21,13 @@ router = APIRouter(prefix="/partners")
             #  responses=exceptions.make_schemas(exceptions.FORBIDDEN)
              )
 async def upload_partner_template(partner_id: int,#Path(..., description="ID профиля партнера") 
+                                  
                                   file: UploadFile,#=Form(..., description="Файл шаблона (template)")
-                                  services: Services = Depends(get_facade_services_if_authenticated)):
-    template = await services.templates.create_template(partner_id=partner_id, file=file)
+                                  template_id: typing.Optional[int]= None,
+                                  services: Services = Depends(get_facade_services_if_authenticated,),
+                                  ):
+    template = await services.templates.create_template(partner_id=partner_id, file=file, template_id=template_id)
     if template[1] == 0:
-    
-    # print(type(Data))
-    # print(type(template) == "<class 'db.partners.Data'>")
         return await DataOut.from_tortoise_orm(template[0])
     else:
         return await TemplateOut.from_tortoise_orm(template[0])
@@ -49,3 +48,20 @@ async def get_partner_profile(partner_id: int = Path(..., description="ID про
     if not partner:
         raise exceptions.PARTNER_NOT_FOUND
     return await PartnerOut.from_tortoise_orm(partner)
+
+
+class data_info(BaseModel):
+    is_valid: bool = False
+    initial_data_quantity: int = None
+    number_of_string_data: int = None
+    number_of_numeric_data: int = None
+    error_commit: str = None
+
+
+@router.put("/data/{data_id}")
+async def update_data_items(data_id: int, data: data_info):
+    print(await Data.filter(id=data_id).update(is_valid=data.is_valid, number_of_numeric_data=2002,initial_data_quantity=data.initial_data_quantity, number_of_string_data=data.number_of_string_data, error_commit=data.error_commit ))
+    # update_item_encoded = jsonable_encoder(item)
+    # items[item_id] = update_item_encoded
+    # return update_item_encoded
+    return "Done"

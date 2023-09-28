@@ -16,15 +16,16 @@ from pydantic import BaseModel
 router = APIRouter(prefix="/partners", tags=["partners"])
 
 
-@router.post('/{partner_id}/templates', 
+@router.post('/{partner_id}/templates',
+              
             #  response_model=TemplateOut,
             #  responses=exceptions.make_schemas(exceptions.FORBIDDEN)
              )
-async def upload_partner_template(partner_id: int,#Path(..., description="ID профиля партнера") 
+async def upload_file(partner_id: int,#Path(..., description="ID профиля партнера") 
                                   
                                   file: UploadFile,#=Form(..., description="Файл шаблона (template)")
                                   template_id: typing.Optional[int]= None,
-                                  services: Services = Depends(get_facade_services_if_authenticated,),
+                                  services: Services = Depends(get_facade_services_if_authenticated),
                                   ):
     template = await services.templates.create_template(partner_id=partner_id, file=file, template_id=template_id)
     if template[1] == 0:
@@ -35,7 +36,7 @@ async def upload_partner_template(partner_id: int,#Path(..., description="ID п�
 
 @router.delete('/templates/{template_id}',
                responses=exceptions.make_schemas(exceptions.FORBIDDEN))
-async def delete_template(template_id: int = Path(..., description="ID шаблона"),
+async def delete_file(template_id: int = Path(..., description="ID шаблона"),
                           facade: Services = Depends(get_facade_services_if_authenticated)):
     return await facade.templates.delete_template(template_id)
 
@@ -59,9 +60,7 @@ class data_info(BaseModel):
 
 
 @router.put("/data/{data_id}")
-async def update_data_items(data_id: int, data: data_info):
-    print(await Data.filter(id=data_id).update(is_valid=data.is_valid, number_of_numeric_data=2002,initial_data_quantity=data.initial_data_quantity, number_of_string_data=data.number_of_string_data, error_commit=data.error_commit ))
-    # update_item_encoded = jsonable_encoder(item)
-    # items[item_id] = update_item_encoded
-    # return update_item_encoded
-    return "Done"
+async def update_data_items(data_id: int, 
+                            data: data_info,
+                            services: Services = Depends(get_facade_services_if_authenticated)):
+    return await Data.filter(id=data_id).update(is_valid=data.is_valid, number_of_numeric_data=2002,initial_data_quantity=data.initial_data_quantity, number_of_string_data=data.number_of_string_data, error_commit=data.error_commit)

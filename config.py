@@ -17,12 +17,12 @@ class Database:
     MODULES = ['db.users', 'db.partners']
     
     #local postgres 
-    # CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING")
+    CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING")
     
     # CONNECTION_STRING = f"postgres://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     
     #local in render
-    CONNECTION_STRING = "postgres://sohibjon:nNI0w7YH1saKTjyLi5i3jzI4E41hwRCo@dpg-ck1ghhmru70s73dhe5u0-a/lucid_tvrn"
+    # CONNECTION_STRING = "postgres://sohibjon:nNI0w7YH1saKTjyLi5i3jzI4E41hwRCo@dpg-ck1ghhmru70s73dhe5u0-a/lucid_tvrn"
     
     #global postgres db render
     # CONNECTION_STRING ="postgres://sohibjon:nNI0w7YH1saKTjyLi5i3jzI4E41hwRCo@dpg-ck1ghhmru70s73dhe5u0-a.oregon-postgres.render.com/lucid_tvrn"

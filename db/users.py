@@ -24,7 +24,6 @@ class User(DBModel):
         return self.role == UserRole.ADMIN
             
     def is_partner(self) -> bool:
-        print(self.partner_profile.all().values())
         return self.partner_profile is not None
     
     def is_engineer(self) -> bool:

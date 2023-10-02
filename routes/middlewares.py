@@ -17,7 +17,6 @@ async def is_authenticated(token: HTTPAuthorizationCredentials = Depends(bearer)
     """Serves as a middleware function for related routes.
     Validates bearer jwt-token and returns matching context User object"""
     try:
-        print(token)
         payload = jwt.decode(token.credentials, config.JWT.SECRET, algorithms=[config.JWT.ALGORITHM])
         user_id = payload.get('sub')
         if user_id is None:

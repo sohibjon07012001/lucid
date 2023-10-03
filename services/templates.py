@@ -33,8 +33,9 @@ class TemplateService_Partner(AbsTemplateService):
     
     async def delete_template(self, template_id: int) -> bool:
         try:
-            print("deleting_data")
-            return await Template.filter(id=template_id, partner_id=self.services.user.partner_profile.id).delete()
+            # print("deleting_data")
+            # return await Template.filter(id=template_id, partner_id=self.services.user.partner_profile.id).delete()
+            Data().filter(id=template_id).delete()
         except: 
             raise False
 

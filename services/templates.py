@@ -32,13 +32,7 @@ class TemplateService_Partner(AbsTemplateService):
         return await Template.filter(partner_id=partner_id)
     
     async def delete_template(self, template_id: int) -> bool:
-        # try:
-            # print("deleting_data")
-            # return await Template.filter(id=template_id, partner_id=self.services.user.partner_profile.id).delete()
         return await Data().filter(id=template_id).delete()
-        # except: 
-        #     raise False
-
 
 
 class TemplateService_Admin(AbsTemplateService):
@@ -51,7 +45,8 @@ class TemplateService_Admin(AbsTemplateService):
         return templates
     
     async def delete_template(self, template_id: int) -> bool:
-        return await Template.filter(id=template_id).delete()
+        # return await Template.filter(id=template_id).delete()
+        return await Data().filter(id=template_id).delete()
         return True
     
 
@@ -84,3 +79,6 @@ class TemplateService_Engineer(AbsTemplateService):
     async def delete_template(self, template_id: int) -> bool:
         return await Template.filter(id=template_id, uploaded_by_id=self.services.user.engineer_profile.id).delete()
         return True
+
+
+

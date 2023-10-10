@@ -14,7 +14,7 @@ class JWT:
     SECRET = "my-32-character-ultra-secure-and-ultra-long-secret"
 
 class Database:
-    MODULES = ['db.users', 'db.partners']
+    MODULES = ['db.users', 'db.partners', 'db.ml_models']
     
     #local postgres 
     # CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING")

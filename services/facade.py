@@ -22,6 +22,21 @@ class SubService(ABC):
         self.services = services
 
 
+
+class AbsMlModelsResultService(SubService, ABC):
+    @abstractmethod
+    async def create_ml_models(self, data_id: int, excel_file: UploadFile, pkl_file: UploadFile): ...
+    
+    @abstractmethod
+    async def get_ml_models(self, data_id: int): ...
+    
+    @abstractmethod
+    async def delete_ml_models(self, ml_model_id: str): ...
+
+
+
+
+
 class AbsTemplateService(SubService, ABC):
     @abstractmethod
     async def create_template(self, partner_id: int, file: UploadFile, template_id:int = None,): ...
@@ -32,6 +47,7 @@ class AbsTemplateService(SubService, ABC):
     @abstractmethod
     async def delete_template(self, template_id: int) -> bool: ...
 
+    
 
 class AbsUserService(SubService, ABC):    
     @abstractmethod
@@ -56,29 +72,32 @@ class Services(UserBasedService):
     templates: AbsTemplateService
     partners: AbsPartnerService
     users: AbsUserService
-    
+    ml_models: AbsMlModelsResultService
+
     def __init__(self, user: User, **kwargs):
         super().__init__(user, **kwargs)
         
         from services.templates import TemplateService_Admin, TemplateService_Engineer, TemplateService_Partner
         from services.partners import PartnerService_Admin, PartnerService_Engineer, PartnerService_Partner
         from services.users import  UserService_Admin, UserService_Engineer, UserService_Partner
-        
+        from services.ml_models import Ml_Models_Service_Admin, Ml_Models_Service_Engineer, Ml_Models_Service_Partner
         if self.user.is_admin():
             self.templates = TemplateService_Admin(self)
             self.partners = PartnerService_Admin(self)
             self.users = UserService_Admin(self)
+            self.ml_models = Ml_Models_Service_Admin(self)
         
         elif self.user.is_partner():
             self.templates = TemplateService_Partner(self)
             self.partners = PartnerService_Partner(self)
             self.users = UserService_Partner(self)
+            self.ml_models = Ml_Models_Service_Partner(self)
             print("is partner")
         elif self.user.is_engineer():
             self.templates = TemplateService_Engineer(self)
             self.partners = PartnerService_Engineer(self)
             self.users = UserService_Engineer(self)
+            self.ml_models = Ml_Models_Service_Engineer(self)
             print("is engineer")
         else:
             print("FAILE")
-          

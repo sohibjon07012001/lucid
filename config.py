@@ -10,9 +10,9 @@ DB_NAME = os.getenv("DB_NAME")
 
 
 class EMAIL():
-    LOGIN = os.getenv("EMAIL_LOGIN")
-    PASSWORD = os.getenv("EMAIL_PASSWORD")
-
+    LOGIN = "!Zypl12345678"
+    PASSWORD = "verify@zypl.ai"
+ 
 
 
 class JWT:

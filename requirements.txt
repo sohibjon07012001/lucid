@@ -10,3 +10,4 @@ azure-storage-blob
 python-multipart
 python-dotenv      
 pandas
+openpyxl

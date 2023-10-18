@@ -8,6 +8,13 @@ DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 DB_NAME = os.getenv("DB_NAME")
 
+
+class EMAIL():
+    LOGIN = os.getenv("EMAIL_LOGIN")
+    PASSWORD = os.getenv("EMAIL_PASSWORD")
+
+
+
 class JWT:
     ALGORITHM = "HS256"
     EXPIRY = 60 * 60 #60 * 60 * 24

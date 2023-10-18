@@ -27,7 +27,6 @@ class User(DBModel):
         return self.partner_profile is not None
     
     def is_engineer(self) -> bool:
-        print(self.engineer_profile.all().values())
         return self.engineer_profile is not None
     
     def check_password(self, password: str) -> bool:

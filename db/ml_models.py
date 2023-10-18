@@ -19,7 +19,7 @@ class Ml_Models(DBModel):
     approval_rate = fields.CharField(max_length=50,null=True)
     real_npl = fields.CharField(max_length=50,null=True)
     ml_model_npl = fields.CharField(max_length=50,null=True)
-    data = fields.ForeignKeyField('db.Partner', related_name="data_id_ml_model") 
+    data = fields.ForeignKeyField('db.Data', related_name="data_id_ml_model") 
     ml_model_id = fields.CharField(max_length=255,null=True)
 
 

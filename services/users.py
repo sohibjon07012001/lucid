@@ -1,7 +1,7 @@
 import typing
 from db.users import User, Engineer, Partner, EngineerPartner, UserRole
 from value_types import UserRole
-
+from services.email import SEND_EMAIL
 import exceptions
 from services.facade import SubService, AbsUserService
 
@@ -47,9 +47,17 @@ class UserService_Admin(AbsUserService):
         return engineer
     
     async def create_partner(self, email: str, name: str, country: str, engineer_ids: typing.List[int] = None) -> Partner:
+        
+        user_get = await User.get_or_none(email=email)
+        if  user_get:
+            raise exceptions.PARTNER_ALREDY_EXIST
+        
         user = await _create_user(email=email)
         partner = await Partner.create(user=user, name=name, country=country)
+        send = SEND_EMAIL()
+        send.send_emaill(message=f"an account has been created, your login {email}", send_to=email, subject="Created Account")
         
+
         matrix = []
         for engineer_id in engineer_ids:
             matrix.append(EngineerPartner(engineer_id=engineer_id, partner_id=partner.id))

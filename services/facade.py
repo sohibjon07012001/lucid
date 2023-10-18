@@ -1,4 +1,4 @@
-from fastapi import UploadFile
+from fastapi import UploadFile, BackgroundTasks
 import typing
 from abc import *
 
@@ -39,7 +39,7 @@ class AbsMlModelsResultService(SubService, ABC):
 
 class AbsTemplateService(SubService, ABC):
     @abstractmethod
-    async def create_template(self, partner_id: int, file: UploadFile, template_id:int = None,): ...
+    async def create_template(self, partner_id: int, file: UploadFile, template_id:int = None): ...
     
     @abstractmethod
     async def get_templates(self, partner_id: int) -> typing.List[Template]: ...

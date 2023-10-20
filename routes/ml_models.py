@@ -30,8 +30,10 @@ async def get_ml_models_info(data_id: int,
     # result = await Ml_Models.get_or_none(data_id=data_id)
     # if not result:
     #     raise exceptions.MlMOdel_NOT_FOUND
-    ml_models_info = facade.ml_models.get_ml_models(data_id=data_id)
-    return await MlMoldels.from_queryset(ml_models_info)
+    ml_models_info =  await facade.ml_models.get_ml_models(data_id=data_id)
+    # print(ml_models_info)
+    # return await MlMoldels.from_queryset(ml_models_info)
+    return ml_models_info
 
 
 @router.delete('/ml_model/{ml_model}',

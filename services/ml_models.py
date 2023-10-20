@@ -7,7 +7,7 @@ from db.users import User, Partner, Engineer, EngineerPartner
 from db.ml_models import Ml_Models, Pkl_Models
 import exceptions
 from services.azure_storage import upload_file
-
+import pandas as pd
 from services.facade import AbsMlModelsResultService
 
 
@@ -41,13 +41,18 @@ class Ml_Models_Service_Engineer(AbsMlModelsResultService):
         await Pkl_Models.create(ml_model_id=ml_model_id, pkl_file_url=file_url, pkl_file_name=pkl_file.filename)
         return await Ml_Models.bulk_create(to_insert)
 
-    def delete_ml_models(self, ml_model_id: str) -> bool:
+    async def delete_ml_models(self, ml_model_id: str) -> bool:
         Ml_Models().filter(ml_model_id=ml_model_id).delete()
-        return Ml_Models.filter(ml_model_id=ml_model_id).delete()
+        return await Ml_Models.filter(ml_model_id=ml_model_id).delete()
 
-    def get_ml_models(self, data_id: int):
-        
-        return Ml_Models.filter(data_id=data_id) 
+    async def get_ml_models(self, data_id: int):
+
+        ress = await Ml_Models.filter(data_id=data_id).all().values()
+        df = pd.DataFrame(ress)
+        dictt = {}
+        for i, j in enumerate(df['ml_model_id'].unique()):
+            dictt[f"model{i}"] = df[df['ml_model_id']==j].to_dict("records")
+        return dictt 
 
         
 

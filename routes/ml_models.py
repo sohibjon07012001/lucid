@@ -27,13 +27,7 @@ async def upload_model_result(
 @router.get('/{data_id}')
 async def get_ml_models_info(data_id: int,
                               facade: Services = Depends(get_facade_services_if_authenticated)):
-    # result = await Ml_Models.get_or_none(data_id=data_id)
-    # if not result:
-    #     raise exceptions.MlMOdel_NOT_FOUND
-    ml_models_info =  await facade.ml_models.get_ml_models(data_id=data_id)
-    # print(ml_models_info)
-    # return await MlMoldels.from_queryset(ml_models_info)
-    return ml_models_info
+    return await facade.ml_models.get_ml_models(data_id=data_id)
 
 
 @router.delete('/ml_model/{ml_model}',

@@ -91,8 +91,15 @@ class Ml_Models_Service_Partner(AbsMlModelsResultService):
     def delete_ml_models(self, template_id: int):
         raise exceptions.FORBIDDEN
 
-    def get_ml_models(self, partner_id: int):
-        raise exceptions.FORBIDDEN
+    async def get_ml_models(self, data_id: int):
+        ress = await Ml_Models.filter(data_id=data_id).all().values()
+        if len(ress)==0:
+            return []
+        df = pd.DataFrame(ress)
+        dictt = {}
+        for i, j in enumerate(df['ml_model_id'].unique()):
+            dictt[f"model{i}"] = df[df['ml_model_id']==j].to_dict("records")
+        return dictt 
 
 
 

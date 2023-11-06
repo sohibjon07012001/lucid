@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from models.admin_tools import CreateUserRequest
-from models.auth import AuthCheckEmailRequest, AuthCheckEmailResponse, SignInRequest, TokenResponse, SetPasswordRequest, ChangePasswordRequest
+from models.auth import AuthCheckEmailRequest, AuthCheckEmailResponse, SignInRequest, TokenResponse, SetPasswordRequest, ChangePasswordRequest, ChangeProfileRequest
 from models.users import UserOut
 from value_types import ProfileType
 from services import users, auth, jwt
@@ -36,7 +36,14 @@ async def set_initial_password(body: SetPasswordRequest):
     return TokenResponse(token=await jwt.issue_jwt_token(user.id), user=await UserOut.from_tortoise_orm(user))
 
 
-@router.post("/change_password", responses=exceptions.make_schemas(exceptions.PASSWORDS_DO_NOT_MATCH))
+@router.post("/change_password", responses=exceptions.make_schemas(exceptions.PASSWORDS_DO_NOT_MATCH, exceptions.OLD_PASSWORDS_DO_NOT_MATCH))
 async def change_password(body: ChangePasswordRequest,
                           services: Services = Depends(get_facade_services_if_authenticated)):
-    return await auth.change_password(services.user, body.password, body.password_cnf)
+    return await auth.change_password(services.user, body.old_password, body.new_password)
+
+
+
+@router.post("/change_profile", responses=exceptions.make_schemas())
+async def change_profile(body: ChangeProfileRequest,
+                          services: Services = Depends(get_facade_services_if_authenticated)):
+    return await auth.change_profile(services.user, body.email, body.first_name, body.last_name)

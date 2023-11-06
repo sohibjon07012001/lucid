@@ -37,7 +37,12 @@ class User(DBModel):
     def set_password(self, password: str):
         self.password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
+    def set_email(self, email: str):
+        self.email = email
+        return self.email
+    
 
+    
 class Engineer(DBModel):
     """Профиль инженера"""
     id = fields.IntField(pk=True)

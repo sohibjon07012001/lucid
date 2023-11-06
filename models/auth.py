@@ -26,5 +26,10 @@ class SetPasswordRequest(BaseModel):
 
 
 class ChangePasswordRequest(BaseModel):
-    password: str = Field(min_length=6, max_length=24)
-    password_cnf: str = Field(min_length=6, max_length=24)
+    old_password: str = Field()
+    new_password: str = Field(min_length=6, max_length=24)
+
+class ChangeProfileRequest(BaseModel):
+    first_name: str = Field()
+    last_name: str = Field()
+    email: EmailStr

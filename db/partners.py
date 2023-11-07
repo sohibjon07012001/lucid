@@ -22,6 +22,7 @@ class Data(DBModel):
     initial_data_quantity = fields.IntField(null=True)
     number_of_string_data = fields.IntField(null=True)
     number_of_numeric_data = fields.IntField(null=True)
+    npl_rate = fields.FloatField(null=True)
     error_commit = fields.CharField(max_length=500, null=True)
 
 

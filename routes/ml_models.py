@@ -30,6 +30,7 @@ async def get_ml_models_info(data_id: int,
     return await facade.ml_models.get_ml_models(data_id=data_id)
 
 
+
 @router.delete('/ml_model/{ml_model}',
                responses=exceptions.make_schemas(exceptions.FORBIDDEN))
 async def delete_ml_model(ml_model: str ,

@@ -33,3 +33,10 @@ class ChangeProfileRequest(BaseModel):
     first_name: str = Field()
     last_name: str = Field()
     email: EmailStr
+
+
+class CreateAdminRequest(BaseModel):
+    email: EmailStr
+    password: str = Field()
+    first_name: str = Field()
+    last_name: str = Field()

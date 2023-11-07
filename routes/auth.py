@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from models.admin_tools import CreateUserRequest
-from models.auth import AuthCheckEmailRequest, AuthCheckEmailResponse, SignInRequest, TokenResponse, SetPasswordRequest, ChangePasswordRequest, ChangeProfileRequest
+from models.auth import AuthCheckEmailRequest, AuthCheckEmailResponse,CreateAdminRequest, SignInRequest, TokenResponse, SetPasswordRequest, ChangePasswordRequest, ChangeProfileRequest
 from models.users import UserOut
 from value_types import ProfileType
 from services import users, auth, jwt
@@ -47,3 +47,6 @@ async def change_password(body: ChangePasswordRequest,
 async def change_profile(body: ChangeProfileRequest,
                           services: Services = Depends(get_facade_services_if_authenticated)):
     return await auth.change_profile(services.user, body.email, body.first_name, body.last_name)
+
+
+

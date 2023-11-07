@@ -57,10 +57,11 @@ class data_info(BaseModel):
     number_of_string_data: int = None
     number_of_numeric_data: int = None
     error_commit: str = None
+    npl_rate: float = None
 
 
 @router.put("/data/{data_id}")
 async def update_data_items(data_id: int, 
                             data: data_info,
                             services: Services = Depends(get_facade_services_if_authenticated)):
-    return await Data.filter(id=data_id).update(is_valid=data.is_valid, number_of_numeric_data=2002,initial_data_quantity=data.initial_data_quantity, number_of_string_data=data.number_of_string_data, error_commit=data.error_commit)
+    return await Data.filter(id=data_id).update(is_valid=data.is_valid, number_of_numeric_data=2002,initial_data_quantity=data.initial_data_quantity, number_of_string_data=data.number_of_string_data, error_commit=data.error_commit, npl_rate=data.npl_rate)

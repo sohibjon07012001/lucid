@@ -66,7 +66,19 @@ class Partner(DBModel):
     
     # templates: fields.ForeignKeyRelation[Template]
     # engineer_matrix: fields.ForeignKeyRelation['EngineerPartner']
-    
+
+
+
+class Root(DBModel):
+    """Профиль admina"""
+    id = fields.IntField(pk=True)
+    user = fields.OneToOneField('db.User', related_name='root_profile')
+    first_name = fields.CharField(max_length=24)
+    last_name = fields.CharField(max_length=24)
+
+
+
+
 
 class EngineerPartner(DBModel):
     engineer = fields.ForeignKeyField('db.Engineer', related_name="partner_matrix")

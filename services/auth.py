@@ -1,8 +1,11 @@
 import typing
-from db.users import User, Engineer, Partner
+from db.users import User, Engineer, Partner, Root
 from value_types import UserRole
 import pandas as pd
 import exceptions
+from models.auth import CreateAdminRequest
+import uuid
+import bcrypt
 
 
 async def authenticate(email: str, password: str) -> User:
@@ -35,12 +38,25 @@ async def change_profile(user: User, email:str, first_name: str, last_name: str 
         user.set_email(email=email)
         await user.save()
         return user
-    
     elif user.is_partner():
         await Partner.filter(user_id=user.id).update(name=first_name)
+        user.set_email(email=email)
+        await user.save()
+        return user
+    elif user.is_admin():
+        await Root.filter(user_id=user.id).update(first_name=first_name, last_name=last_name)
         user.set_email(email=email)
         await user.save()
         return user
     else:
         raise exceptions.FORBIDDEN
     
+
+
+async def create_admin(user: User, r:CreateAdminRequest):
+    if user.is_admin():
+        admin_id = uuid.uuid4()
+        password = bcrypt.hashpw(r.password.encode(), bcrypt.gensalt()).decode()
+        s = await User.create(id=admin_id, email=r.email, password=password, role="admin")
+        a = await Root.create(first_name=r.first_name, last_name=r.last_name, user_id=admin_id)
+        return a 
